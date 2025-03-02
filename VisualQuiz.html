@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .quiz-container {
+            margin-top: 50px;
+        }
+
+        .image-box {
+            display: inline-block;
+            margin: 20px;
+            padding: 20px;
+            border: 2px solid #279289;
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .image-box img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 5px;
+        }
+
+        .btn {
+            background: #49B9CA;
+            color: white;
+            font-size: 18px;
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+<h1>Visual Memory Quiz</h1>
+<div class="quiz-container" id="quiz-gallery"></div>
+<button class="btn" onclick="startQuiz()">Start Quiz</button>
+
+<script>
+    // Function to retrieve memory data from localStorage
+    function loadImages() {
+        const gallery = document.getElementById('quiz-gallery');
+        const memoryData = JSON.parse(localStorage.getItem("memoryData"));
+
+        // Check if there are any images stored in memoryData
+        if (memoryData && memoryData.length > 0) {
+            // Loop through the stored images and display them in the gallery
+            memoryData.forEach(function(imageData) {
+                const imageBox = document.createElement('div');
+                imageBox.classList.add('image-box');
+                imageBox.innerHTML = `
+                        <img src="${imageData.src}" alt="Uploaded Image">
+                        <p>${imageData.name}</p>
+                    `;
+                gallery.appendChild(imageBox);
+            });
+        } else {
+            gallery.innerHTML = "<p>No images found. Please upload some images in the VisualMemoryPage first.</p>";
+        }
+    }
+
+    // Call loadImages to display the images when the page loads
+    window.onload = loadImages;
+
+    // Function to handle starting the quiz (you can expand this logic)
+    function startQuiz() {
+        alert("Quiz starting!");
+    }
+</script>
+</body>
+</html>

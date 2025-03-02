@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socialization Page</title>
+    <style>
+        body {
+            background-color: #E9F1F6;
+            font-family: 'Helvetica Neue', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .socialization-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #279289;
+            font-size: 60px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .btn-back {
+            background: #FF6F61;
+            color: white;
+            font-size: 18px;
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.1); /* Optional hover effect */
+        }
+
+        /* Floating background animation */
+        .floating-bg {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(73,185,202,0.2) 20%, rgba(255,255,255,0) 80%);
+            animation: moveBg 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes moveBg {
+            from {
+                transform: translateY(-50px);
+            }
+            to {
+                transform: translateY(50px);
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Floating background animation -->
+<div class="floating-bg"></div>
+
+<!-- Main content container -->
+<div class="socialization-container">
+    <h1>Socialization Page</h1>
+
+    <!-- Back Button to return to Options Page -->
+    <button class="btn-back" onclick="goBack()">Go Back</button>
+</div>
+
+<script>
+    // Function to go back to the options page
+    function goBack() {
+        window.location.href = 'options.html'; // Navigates back to options.html
+    }
+</script>
+</body>
+</html>

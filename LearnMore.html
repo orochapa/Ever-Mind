@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn More</title>
+    <style>
+        body {
+            background-color: #E9F1F6;
+            font-family: 'Helvetica Neue', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #279289;
+            font-size: 60px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        p {
+            color: #ABD5D9;
+            font-size: 24px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .btn-back {
+            background: #FF6F61;
+            color: white;
+            font-size: 18px;
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="learn-more-container">
+    <h1>Learn More</h1>
+    <p>Here, you can provide detailed information about your website, services, or products. You can add anything you'd like for users to learn more.</p>
+
+    <!-- Back Button to Welcome Page -->
+    <button class="btn-back" onclick="goBack()">Back to Welcome</button>
+</div>
+
+<script>
+    // Function to navigate back to the Welcome Page
+    function goBack() {
+        window.location.href = 'WelcomePage.html'; // Navigates back to the WelcomePage.html
+    }
+</script>
+</body>
+</html>

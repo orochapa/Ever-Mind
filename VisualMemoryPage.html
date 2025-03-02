@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Memory Page</title>
+    <style>
+        body {
+            background-color: #E9F1F6;
+            font-family: 'Helvetica Neue', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .visual-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #279289;
+            font-size: 60px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .btn {
+            background: #FF6F61;
+            color: white;
+            font-size: 18px;
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #FF6F61;
+            color: white;
+            font-size: 18px;
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-bg {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(73,185,202,0.2) 20%, rgba(255,255,255,0) 80%);
+            animation: moveBg 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes moveBg {
+            from {
+                transform: translateY(-50px);
+            }
+            to {
+                transform: translateY(50px);
+            }
+        }
+
+        .memory-list {
+            margin-top: 20px;
+        }
+
+        .memory-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        img {
+            max-width: 200px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Floating background animation -->
+<div class="floating-bg"></div>
+
+<!-- Back Button -->
+<button class="btn-back" onclick="goBack()">Go Back</button>
+
+<!-- Main content container -->
+<div class="visual-container">
+    <h1>Visual Memory Game</h1>
+    <input type="file" id="imageUpload" accept="image/*">
+    <input type="text" id="nameInput" placeholder="Enter name">
+    <button class="btn" onclick="saveMemory()">Save Memory</button>
+    <button class="btn" onclick="startQuiz()">Start Quiz</button>
+
+    <div id="memoryList" class="memory-list"></div>
+    <div id="quizSection" style="display: none;">
+        <img id="quizImage" src="" alt="Who is this?">
+        <input type="text" id="quizAnswer" placeholder="Enter name">
+        <button class="btn" onclick="checkAnswer()">Submit</button>
+        <p id="quizFeedback"></p>
+    </div>
+</div>
+
+<script>
+    let currentUser = localStorage.getItem("currentUser") || "guest"; // Set current user (replace with actual login system)
+    let memories = JSON.parse(localStorage.getItem(`memories_${currentUser}`)) || [];
+    let currentQuizIndex = 0;
+
+    function saveMemory() {
+        const fileInput = document.getElementById('imageUpload');
+        const nameInput = document.getElementById('nameInput');
+
+        if (fileInput.files.length === 0 || nameInput.value.trim() === "") {
+            alert("Please upload an image and enter a name.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const memory = {
+                name: nameInput.value.trim(),
+                image: event.target.result
+            };
+            memories.push(memory);
+            localStorage.setItem(`memories_${currentUser}`, JSON.stringify(memories));
+            nameInput.value = "";
+            fileInput.value = "";
+            displayMemories();
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+
+    function displayMemories() {
+        const memoryList = document.getElementById('memoryList');
+        memoryList.innerHTML = "";
+        memories.forEach((memory, index) => {
+            const div = document.createElement('div');
+            div.classList.add('memory-item');
+            div.innerHTML = `
+                <p>${memory.name}</p>
+                <img src="${memory.image}" alt="${memory.name}">
+            `;
+            memoryList.appendChild(div);
+        });
+    }
+
+    function startQuiz() {
+        if (memories.length === 0) {
+            alert("No memories stored. Please add some first.");
+            return;
+        }
+        currentQuizIndex = 0;
+        document.getElementById('quizSection').style.display = "block";
+        loadNextQuestion();
+    }
+
+    function loadNextQuestion() {
+        if (currentQuizIndex >= memories.length) {
+            alert("Quiz completed!");
+            document.getElementById('quizSection').style.display = "none";
+            return;
+        }
+        const quizImage = document.getElementById('quizImage');
+        quizImage.src = memories[currentQuizIndex].image;
+        document.getElementById('quizAnswer').value = "";
+        document.getElementById('quizFeedback').innerText = "";
+    }
+
+    function checkAnswer() {
+        const answer = document.getElementById('quizAnswer').value.trim();
+        if (answer === memories[currentQuizIndex].name) {
+            document.getElementById('quizFeedback').innerText = "Correct!";
+            currentQuizIndex++;
+            setTimeout(loadNextQuestion, 1000);
+        } else {
+            document.getElementById('quizFeedback').innerText = "Try again.";
+        }
+    }
+
+    function goBack() {
+        window.location.href = 'options.html'; // Change if needed
+    }
+
+    displayMemories();
+</script>
+
+</body>
+</html>
