@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        body {
+            background-color: #E9F1F6;
+            font-family: 'Helvetica Neue', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .create-account-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #279289;
+            font-size: 60px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            margin: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            border-radius: 50px;
+            transition: transform 0.4s ease, background-color 0.4s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #49B9CA, #279289);
+            box-shadow: 0 10px 30px rgba(73, 185, 202, 0.4);
+        }
+
+        .btn-create-account {
+            background: linear-gradient(135deg, #FF6F61, #FF8A80);
+            box-shadow: 0 10px 30px rgba(255, 111, 97, 0.4);
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-bg {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(73,185,202,0.2) 20%, rgba(255,255,255,0) 80%);
+            animation: moveBg 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes moveBg {
+            from {
+                transform: translateY(-50px);
+            }
+            to {
+                transform: translateY(50px);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="floating-bg"></div>
+<div class="create-account-container">
+    <h1>Create Account</h1>
+    <input type="text" id="newUsername" placeholder="Username" style="padding: 10px; font-size: 18px; margin: 10px;">
+    <input type="password" id="newPassword" placeholder="Password" style="padding: 10px; font-size: 18px; margin: 10px;">
+    <input type="text" id="firstName" placeholder="First Name" style="padding: 10px; font-size: 18px; margin: 10px;">
+    <input type="text" id="lastName" placeholder="Last Name" style="padding: 10px; font-size: 18px; margin: 10px;">
+    <button class="btn btn-create-account" onclick="createAccount()">Create Account</button>
+    <button class="btn btn-primary" onclick="window.location.href='Login.html'">Back to Login</button>
+</div>
+
+<script>
+    function createAccount() {
+        const username = document.getElementById('newUsername').value;
+        const password = document.getElementById('newPassword').value;
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+        localStorage.setItem('firstName', firstName);
+        localStorage.setItem('lastName', lastName);
+
+        alert('Account created successfully!');
+        window.location.href = 'Login.html';
+    }
+</script>
+</body>
+</html>
